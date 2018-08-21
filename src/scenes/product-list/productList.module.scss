@@ -1,0 +1,17 @@
+.container {
+  header {
+    margin: 100px 0;
+    text-align: center;
+
+    h1 {
+      font-size: 5em;
+    }
+  }
+
+  .product-list {
+    margin-left: 100px;
+    background: #fff;
+    box-shadow: 0 5px 15px 1px rgba(0, 0, 0, 0.15);
+    padding: 40px;
+  }
+}
