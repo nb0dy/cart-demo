@@ -21,7 +21,10 @@
       "@@app/*": ["src/*"],
       "@@components/*": ["src/components/*"],
       "@@scenes/*": ["src/scenes/*"],
-      "@@store/*": ["src/store/*"]
+      "@@store/*": ["src/store/*"],
+      "@@models/*": ["src/models/*"],
+      "@@const/*": ["src/const/*"],
+      "@@api/*": ["src/api/*"]
     }
   },
   "exclude": [
