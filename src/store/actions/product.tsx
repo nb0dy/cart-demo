@@ -1,11 +1,20 @@
-import { fetchProduct as fetchProductApiCall } from '@@api/product'
+import * as api from '@@api/product'
 import { product as actionTypes } from '@@store/actions/types/product'
-import apiActionGenerator from './apiActionGenerator'
+import { Dispatch } from 'redux'
 
-export const fetchProducts = () =>
-  apiActionGenerator(
-    fetchProductApiCall,
-    actionTypes.PRODUCT_FETCH_SUCCESS,
-    actionTypes.PRODUCT_FETCH_FAILURE,
-    actionTypes.PRODUCT_FETCH_LOADING
-  )
+export const fetchProducts = () => (dispatch: Dispatch) => {
+  dispatch({ type: actionTypes.PRODUCT_FETCH_LOADING })
+
+  api
+    .fetchProduct()
+    .then(result => {
+      dispatch({
+        payload: result.data.map((item: any) => ({
+          ...item,
+          id: parseInt(item.id, 10),
+        })),
+        type: actionTypes.PRODUCT_FETCH_SUCCESS
+      })
+    })
+    .catch(e => dispatch({ type: actionTypes.PRODUCT_FETCH_FAILURE, payload: e }))
+}

@@ -1,4 +1,6 @@
 .container {
+  display: flex;
+
   .button {
     border: 1px solid #ebebeb;
     padding: 5px 10px;
@@ -6,6 +8,10 @@
     font-size: 1em;
     text-decoration: none;
     color: #333333;
+
+    &.big {
+      padding: 15px 50px;
+    }
 
     &:hover {
       color: #fff;

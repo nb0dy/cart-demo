@@ -1,14 +1,31 @@
 .container {
+  display: flex;
+
   .button {
     border: 1px solid #ebebeb;
     padding: 5px 10px;
     cursor: pointer;
     font-size: 1em;
+    background-color: #ffffff;
+
+    &.big {
+      padding: 15px 50px;
+    }
 
     &:hover {
       color: #fff;
       border-color: #c82a2f;
       background-color: #e2393e;
+    }
+
+    &.disabled {
+      color: #4a4a4a;
+      background-color: #d8d8d8;
+
+      &:hover {
+        border-color: #ebebeb;
+        cursor: not-allowed;
+      }
     }
   }
 }

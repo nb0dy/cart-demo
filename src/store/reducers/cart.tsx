@@ -75,10 +75,11 @@ const cartReducer = (
         loading: true
       }
     case actionTypes.CART_ITEM_AMOUNT_INCREASE_FETCH_SUCCESS: {
-      const product: ICartItem = { ...state.items.find(item => item.id !== action.payload) } as ICartItem
+      const product: ICartItem = { ...state.items.find(item => item.id === action.payload) } as ICartItem
       if (product) {
         product.amount++
       }
+      console.log(product)
       return {
         items: [...state.items.filter(item => item.id !== action.payload), product],
         loadError: false,
@@ -98,7 +99,7 @@ const cartReducer = (
         loading: true
       }
     case actionTypes.CART_ITEM_AMOUNT_DECREASE_FETCH_SUCCESS: {
-      const product: ICartItem = { ...state.items.find(item => item.id !== action.payload) } as ICartItem
+      const product: ICartItem = { ...state.items.find(item => item.id === action.payload) } as ICartItem
       if (product) {
         product.amount--
         if (product.amount < 0) {

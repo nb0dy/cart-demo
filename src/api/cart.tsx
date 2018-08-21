@@ -14,9 +14,9 @@ export const removeItemFromCart = async (params: any) => {
 }
 
 export const increaseAmout = async (params: any) => {
-  return await Api.put(endpoints.fetchCart, { params })
+  return await Api.put(`${endpoints.fetchCart}/${params.id}`, { params: { ...params.params } })
 }
 
 export const decreaseAmout = async (params: any) => {
-  return await Api.put(endpoints.fetchCart, { params })
+  return await Api.put(`${endpoints.fetchCart}/${params.id}`, { params: { ...params.params } })
 }

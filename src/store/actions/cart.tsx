@@ -2,7 +2,6 @@ import * as api from '@@api/cart'
 import { ICartItem } from '@@models/cart'
 import { cart as actionTypes } from '@@store/actions/types/cart'
 import { Dispatch } from 'redux'
-import apiActionGenerator from './apiActionGenerator'
 
 export const fetchCart = () => (dispatch: Dispatch) => {
   dispatch({ type: actionTypes.CART_FETCH_LOADING })
@@ -13,8 +12,8 @@ export const fetchCart = () => (dispatch: Dispatch) => {
       dispatch({
         payload: result.data.map((item: any) => ({
           amount: item.params.amount,
-          id: item.id,
-          productId: item.params.id
+          id: parseInt(item.id, 10),
+          productId: parseInt(item.params.id, 10)
         })),
         type: actionTypes.CART_FETCH_SUCCESS
       })
@@ -47,20 +46,24 @@ export const removeItemFromCart = (id: number) => (dispatch: Dispatch) => {
     .catch(e => dispatch({ type: actionTypes.CART_ITEM_REMOVE_FETCH_FAILURE, payload: e }))
 }
 
-export const increaseAmount = (item: ICartItem) =>
-  apiActionGenerator(
-    api.increaseAmout,
-    actionTypes.CART_ITEM_AMOUNT_INCREASE_FETCH_SUCCESS,
-    actionTypes.CART_ITEM_AMOUNT_INCREASE_FETCH_FAILURE,
-    actionTypes.CART_ITEM_AMOUNT_INCREASE_FETCH_LOADING,
-    { id: item.id, amount: item.amount + 1 }
-  )
+export const increaseAmount = (item: ICartItem) => (dispatch: Dispatch) => {
+  dispatch({ type: actionTypes.CART_ITEM_AMOUNT_INCREASE_FETCH_LOADING })
 
-export const decreaseAmount = (item: ICartItem) =>
-  apiActionGenerator(
-    api.decreaseAmout,
-    actionTypes.CART_ITEM_AMOUNT_DECREASE_FETCH_FAILURE,
-    actionTypes.CART_ITEM_AMOUNT_DECREASE_FETCH_FAILURE,
-    actionTypes.CART_ITEM_AMOUNT_DECREASE_FETCH_FAILURE,
-    { id: item.id, amount: item.amount - 1 > 0 ? item.amount - 1 : 0 }
-  )
+  api
+    .increaseAmout({ id: item.id, params: { amount: item.amount + 1, productId: item.productId } })
+    .then(result => {
+      dispatch({ type: actionTypes.CART_ITEM_AMOUNT_INCREASE_FETCH_SUCCESS, payload: item.id })
+    })
+    .catch(e => dispatch({ type: actionTypes.CART_ITEM_AMOUNT_INCREASE_FETCH_FAILURE, payload: e }))
+}
+
+export const decreaseAmount = (item: ICartItem) => (dispatch: Dispatch) => {
+  dispatch({ type: actionTypes.CART_ITEM_AMOUNT_DECREASE_FETCH_LOADING })
+
+  api
+    .decreaseAmout({ id: item.id, params: { amount: item.amount - 1 > 0 ? item.amount - 1 : 0, productId: item.productId } })
+    .then(result => {
+      dispatch({ type: actionTypes.CART_ITEM_AMOUNT_DECREASE_FETCH_SUCCESS, payload: item.id })
+    })
+    .catch(e => dispatch({ type: actionTypes.CART_ITEM_AMOUNT_DECREASE_FETCH_FAILURE, payload: e }))
+}

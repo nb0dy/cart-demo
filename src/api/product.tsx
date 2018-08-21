@@ -1,6 +1,6 @@
 import Api from '@@app/api'
 import endpoints from '@@const/endpoints'
 
-export const fetchProduct = async (params: any) => {
-  return await Api.get(endpoints.fetchProducts, { params })
+export const fetchProduct = async () => {
+  return await Api.get(endpoints.fetchProducts)
 }
