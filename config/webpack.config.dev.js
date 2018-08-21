@@ -239,6 +239,7 @@ module.exports = {
           },
           {
             test: /\.module\.scss$/,
+            include: paths.appSrc,
             use: [
               require.resolve('style-loader'),
               {
@@ -327,7 +328,7 @@ module.exports = {
     // solution that requires the user to opt into importing specific locales.
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/, /css\.d\.ts$/, /scss\.d\.ts$/),
     // Perform type checking and linting in a separate process to speed up compilation
     new ForkTsCheckerWebpackPlugin({
       async: false,
